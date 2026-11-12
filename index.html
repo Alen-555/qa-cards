@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вопросы и ответы</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px 24px;
+    background: #F5F8FA;
+    font-family: Arial, sans-serif;
+    color: #315D78;
+}
+
+.qa-panel {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.qa-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    align-items: stretch;
+}
+
+.qa-card {
+    position: relative;
+    min-width: 0;
+    perspective: 1000px;
+    display: grid;
+}
+
+.qa-card input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.qa-inner {
+    display: grid;
+    width: 100%;
+    min-width: 0;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.65s ease;
+}
+
+.qa-card input:checked + .qa-inner {
+    transform: rotateY(180deg);
+}
+
+.qa-front,
+.qa-back {
+    grid-area: 1 / 1;
+    min-width: 0;
+    min-height: 230px;
+    border-radius: 12px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 1px solid #D5E4E9;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow-wrap: anywhere;
+}
+
+.qa-front {
+    background: #EAF3F8;
+    color: #315D78;
+}
+
+.qa-back {
+    background: #E8F4ED;
+    color: #306B4B;
+    transform: rotateY(180deg);
+}
+
+.qa-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #D2E6F1;
+    color: #3476A5;
+    font-size: 23px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.qa-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.qa-answer {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-top: 12px;
+    white-space: pre-line;
+}
+
+.qa-hint {
+    font-size: 11px;
+    opacity: 0.65;
+    margin-top: 14px;
+}
+
+.qa-inner:hover .qa-front {
+    border-color: #83B6D0;
+}
+
+.qa-inner:hover .qa-back {
+    border-color: #83B99A;
+}
+
+@media (max-width: 800px) {
+    .qa-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .qa-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .qa-inner {
+        transition: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="qa-panel">
+    <div class="qa-grid">
+
+        <!-- Карточка 1 -->
+        <div class="qa-card">
+            <input type="checkbox" id="qa-card-1">
+            <label for="qa-card-1" class="qa-inner">
+
+                <div class="qa-front">
+                    <div class="qa-icon">?</div>
+                    <div class="qa-title">
+                        Как работает функционал?
+                    </div>
+                    <div class="qa-hint">
+                        Нажмите, чтобы узнать ответ
+                    </div>
+                </div>
+
+                <div class="qa-back">
+                    <div class="qa-title">Ответ</div>
+                    <div class="qa-answer">Здесь находится ответ на первый вопрос.
+Можно использовать несколько предложений
+и подробно описать нужный процесс.</div>
+                    <div class="qa-hint">
+                        Нажмите, чтобы вернуться
+                    </div>
+                </div>
+
+            </label>
+        </div>
+
+        <!-- Карточка 2 -->
+        <div class="qa-card">
+            <input type="checkbox" id="qa-card-2">
+            <label for="qa-card-2" class="qa-inner">
+
+                <div class="qa-front">
+                    <div class="qa-icon">?</div>
+                    <div class="qa-title">
+                        Где найти нужную информацию?
+                    </div>
+                    <div class="qa-hint">
+                        Нажмите, чтобы узнать ответ
+                    </div>
+                </div>
+
+                <div class="qa-back">
+                    <div class="qa-title">Ответ</div>
+                    <div class="qa-answer">Здесь можно разместить инструкцию,
+ссылку или другую полезную информацию.</div>
+                    <div class="qa-hint">
+                        Нажмите, чтобы вернуться
+                    </div>
+                </div>
+
+            </label>
+        </div>
+
+        <!-- Карточка 3 -->
+        <div class="qa-card">
+            <input type="checkbox" id="qa-card-3">
+            <label for="qa-card-3" class="qa-inner">
+
+                <div class="qa-front">
+                    <div class="qa-icon">?</div>
+                    <div class="qa-title">
+                        Что делать при возникновении ошибки?
+                    </div>
+                    <div class="qa-hint">
+                        Нажмите, чтобы узнать ответ
+                    </div>
+                </div>
+
+                <div class="qa-back">
+                    <div class="qa-title">Ответ</div>
+                    <div class="qa-answer">Здесь находится описание необходимых действий
+при возникновении ошибки.</div>
+                    <div class="qa-hint">
+                        Нажмите, чтобы вернуться
+                    </div>
+                </div>
+
+            </label>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
