@@ -3,343 +3,1194 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>English Cards</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;padding:32px 20px;background:#f5f8fa;font:15px/1.5 Arial,sans-serif;color:#315d78}
-.app{max-width:1100px;margin:auto}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-h1{font-size:23px;margin:0}
-.btn{border:1px solid #a6c6d6;border-radius:9px;background:white;color:#315d78;padding:9px 13px;font:inherit;cursor:pointer}
-.btn.primary{background:#315d78;color:white}
-.btn.danger{color:#a33;border-color:#e6b8b8}
-.controls{background:white;border:1px solid #d5e4e9;border-radius:12px;padding:16px;margin-bottom:20px}
-.search{width:100%;padding:11px;border:1px solid #b9ced9;border-radius:9px;font:inherit;margin-bottom:12px}
-.tags{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
-.tag{padding:6px 10px;border:1px solid #b8d0dd;border-radius:20px;background:#f3f9fc;cursor:pointer;color:#315d78}
-.tag.active{background:#315d78;color:white}
-.filter-row{display:flex;gap:15px;flex-wrap:wrap;align-items:center}
-.status{font-size:12px;color:#6a8190;margin-top:10px}
-.qa-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
-.qa-card{min-width:0;perspective:1000px;display:flex;flex-direction:column}
-.qa-inner{position:relative;display:grid;flex:1;min-width:0;cursor:pointer;transform-style:preserve-3d;transition:transform .65s ease}
-.qa-card.flipped .qa-inner{transform:rotateY(180deg)}
-.qa-front,.qa-back{grid-area:1/1;min-width:0;min-height:230px;border-radius:12px;padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #d5e4e9;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow-wrap:anywhere}
-.qa-front{background:#eaf3f8;color:#315d78}
-.qa-back{background:#e8f4ed;color:#306b4b;transform:rotateY(180deg)}
-.qa-icon{width:36px;height:36px;border-radius:50%;background:#d2e6f1;color:#3476a5;font-size:23px;font-weight:600;display:grid;place-items:center;margin-bottom:12px}
-.qa-title{font-size:15px;font-weight:600;line-height:1.4;white-space:pre-wrap}
-.qa-answer{font-size:15px;line-height:1.6;margin-top:12px;white-space:pre-wrap}
-.qa-hint{font-size:11px;opacity:.65;margin-top:14px}
-.card-actions{display:flex;gap:8px;justify-content:center;padding-top:9px}
-.card-actions .btn{padding:5px 10px;font-size:12px}
-.hidden{display:none!important}
-.empty{text-align:center;padding:35px;color:#647f8d}
-.modal{position:fixed;inset:0;background:#172d3a99;display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
-.dialog{background:white;border-radius:14px;padding:22px;width:min(100%,530px);max-height:90vh;overflow:auto;box-shadow:0 12px 40px #152b3b33}
-.dialog h2{margin:0 0 15px;font-size:19px}
-.field{display:block;margin:12px 0 5px;font-weight:600}
-.dialog input,.dialog textarea{width:100%;border:1px solid #b9ced9;border-radius:8px;padding:10px;font:inherit}
-.dialog textarea{min-height:120px;resize:vertical}
-.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
-.small{font-size:12px;color:#647f8d}
-.tag-editor{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}
-.tag-choice{border:1px solid #bdd5df;border-radius:20px;padding:5px 9px;background:#f4f9fb;cursor:pointer}
-.tag-choice.active{background:#d8eaf4;border-color:#3476a5}
-.add-tag{display:flex;gap:8px}
-.add-tag input{min-width:0}
-.notice{background:#fff9e9;border:1px solid #e8d9a9;border-radius:9px;padding:10px 12px;font-size:12px;margin-bottom:15px;color:#66552c}
-@media(max-width:800px){.qa-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){body{padding:18px 12px}.qa-grid{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.qa-inner{transition:none}}
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 32px 20px;
+  background: #f5f8fa;
+  color: #315d78;
+  font: 15px/1.5 Arial, sans-serif;
+}
+
+.app {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 23px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 9px 13px;
+  border: 1px solid #a6c6d6;
+  border-radius: 9px;
+  background: white;
+  color: #315d78;
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:hover { background: #edf5f9; }
+
+.btn:disabled {
+  opacity: .55;
+  cursor: wait;
+}
+
+.btn.primary {
+  background: #315d78;
+  color: white;
+}
+
+.btn.primary:hover { background: #254a61; }
+
+.btn.danger {
+  color: #a33;
+  border-color: #e6b8b8;
+}
+
+.controls {
+  background: white;
+  border: 1px solid #d5e4e9;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.search {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #b9ced9;
+  border-radius: 9px;
+  font: inherit;
+  margin-bottom: 12px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 10px 0;
+}
+
+.tag {
+  padding: 6px 10px;
+  border: 1px solid #b8d0dd;
+  border-radius: 20px;
+  background: #f3f9fc;
+  color: #315d78;
+  cursor: pointer;
+  font: inherit;
+}
+
+.tag.active {
+  background: #315d78;
+  color: white;
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.status {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #6a8190;
+}
+
+.message {
+  margin-bottom: 15px;
+  padding: 10px 13px;
+  border: 1px solid #d5e4e9;
+  border-radius: 9px;
+  background: white;
+  font-size: 13px;
+}
+
+.message.error {
+  color: #9d3030;
+  border-color: #e6b8b8;
+  background: #fff4f4;
+}
+
+.message.success {
+  color: #306b4b;
+  border-color: #b7dac6;
+  background: #eff9f2;
+}
+
+.hidden { display: none !important; }
+
+.qa-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  align-items: stretch;
+}
+
+.qa-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  perspective: 1000px;
+}
+
+.qa-inner {
+  position: relative;
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform .65s ease;
+}
+
+.qa-card.flipped .qa-inner {
+  transform: rotateY(180deg);
+}
+
+.qa-front,
+.qa-back {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 230px;
+  padding: 22px;
+  border: 1px solid #d5e4e9;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow-wrap: anywhere;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.qa-front {
+  background: #eaf3f8;
+  color: #315d78;
+}
+
+.qa-back {
+  background: #e8f4ed;
+  color: #306b4b;
+  transform: rotateY(180deg);
+}
+
+.qa-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+  background: #d2e6f1;
+  color: #3476a5;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.qa-title {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.qa-answer {
+  margin-top: 12px;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.qa-hint {
+  margin-top: 14px;
+  font-size: 11px;
+  opacity: .65;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 9px;
+}
+
+.card-actions .btn {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.empty {
+  padding: 35px;
+  text-align: center;
+  color: #647f8d;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: #172d3a99;
+}
+
+.dialog {
+  width: min(100%, 530px);
+  max-height: 90vh;
+  overflow: auto;
+  padding: 22px;
+  border-radius: 14px;
+  background: white;
+  box-shadow: 0 12px 40px #152b3b33;
+}
+
+.dialog h2 {
+  margin: 0 0 15px;
+  font-size: 19px;
+}
+
+.field {
+  display: block;
+  margin: 12px 0 5px;
+  font-weight: 600;
+}
+
+.dialog input,
+.dialog textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #b9ced9;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.dialog textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.small {
+  font-size: 12px;
+  color: #647f8d;
+}
+
+.tag-editor {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 9px 0;
+}
+
+.tag-choice {
+  padding: 5px 9px;
+  border: 1px solid #bdd5df;
+  border-radius: 20px;
+  background: #f4f9fb;
+  color: #315d78;
+  cursor: pointer;
+  font: inherit;
+}
+
+.tag-choice.active {
+  background: #d8eaf4;
+  border-color: #3476a5;
+}
+
+.add-tag {
+  display: flex;
+  gap: 8px;
+}
+
+.add-tag input { min-width: 0; }
+
+@media (max-width: 800px) {
+  .qa-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  body { padding: 18px 12px; }
+
+  .qa-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qa-inner { transition: none; }
+}
 </style>
 </head>
+
 <body>
 <main class="app">
-<div class="toolbar">
-<h1>English Cards</h1>
-<button class="btn primary" id="create">+ Создать карточку</button>
-</div>
-<div class="notice">Пробная версия: изменения сохраняются только в этом браузере. Публичный репозиторий пока не обновляется.</div>
-<section class="controls">
-<input id="search" class="search" placeholder="Поиск по вопросам и ответам..." aria-label="Поиск">
-<div>
-<strong>Фильтры по тегам</strong>
-<button class="btn" id="clear" style="padding:4px 9px;margin-left:8px">Сбросить</button>
-</div>
-<div class="tags" id="filterTags"></div>
-<div class="filter-row">
-<label><input type="radio" name="mode" value="any" checked> Любой тег (ИЛИ)</label>
-<label><input type="radio" name="mode" value="all"> Все теги (И)</label>
-</div>
-<div class="status" id="count"></div>
-</section>
-<div class="qa-grid" id="grid"></div>
-<p id="empty" class="empty hidden">По выбранным условиям карточек нет.</p>
+
+  <div class="toolbar">
+    <h1>English Cards</h1>
+
+    <div class="buttons">
+      <button id="login" class="btn">
+        Войти через GitHub
+      </button>
+
+      <button id="create" class="btn primary hidden">
+        + Создать карточку
+      </button>
+
+      <button id="logout" class="btn hidden">
+        Выйти
+      </button>
+    </div>
+  </div>
+
+  <div id="message" class="message hidden" role="status"></div>
+
+  <section class="controls">
+
+    <input
+      id="search"
+      class="search"
+      placeholder="Поиск по вопросам и ответам..."
+      aria-label="Поиск по карточкам"
+    >
+
+    <div>
+      <strong>Фильтры по тегам</strong>
+
+      <button
+        id="clear"
+        class="btn"
+        style="padding:4px 9px;margin-left:8px"
+      >
+        Сбросить
+      </button>
+    </div>
+
+    <div id="filterTags" class="tags"></div>
+
+    <div class="filter-row">
+      <label>
+        <input type="radio" name="mode" value="any" checked>
+        Любой тег (ИЛИ)
+      </label>
+
+      <label>
+        <input type="radio" name="mode" value="all">
+        Все теги (И)
+      </label>
+    </div>
+
+    <div id="count" class="status">Загрузка карточек...</div>
+    <div id="authStatus" class="status"></div>
+
+  </section>
+
+  <div id="grid" class="qa-grid"></div>
+
+  <p id="empty" class="empty hidden">
+    Пока нет карточек.
+  </p>
+
 </main>
 
-<div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
-<div class="dialog">
-<h2 id="dialogTitle">Карточка</h2>
-<form id="form">
-<label class="field" for="question">Вопрос / слово / фраза</label>
-<textarea id="question" required></textarea>
-<label class="field" for="answer">Ответ / перевод / пояснение</label>
-<textarea id="answer" required></textarea>
-<label class="field">Теги (можно выбрать несколько)</label>
-<div id="editTags" class="tag-editor"></div>
-<div class="add-tag">
-<input id="newTag" placeholder="Название нового тега">
-<button class="btn" id="addTag" type="button">Добавить тег</button>
-</div>
-<p class="small">Теги видны только в редакторе и фильтрах, но не на карточках.</p>
-<div class="dialog-actions">
-<button class="btn" id="cancel" type="button">Отмена</button>
-<button class="btn primary" type="submit">Сохранить</button>
-</div>
-</form>
-</div>
+<div
+  id="modal"
+  class="modal hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="dialogTitle"
+>
+  <div class="dialog">
+
+    <h2 id="dialogTitle">Карточка</h2>
+
+    <form id="form">
+
+      <label class="field" for="question">
+        Вопрос / слово / фраза
+      </label>
+
+      <textarea id="question" required></textarea>
+
+      <label class="field" for="answer">
+        Ответ / перевод / пояснение
+      </label>
+
+      <textarea id="answer" required></textarea>
+
+      <label class="field">
+        Теги (можно выбрать несколько)
+      </label>
+
+      <div id="editTags" class="tag-editor"></div>
+
+      <div class="add-tag">
+        <input
+          id="newTag"
+          placeholder="Название нового тега"
+        >
+
+        <button
+          id="addTag"
+          class="btn"
+          type="button"
+        >
+          Добавить тег
+        </button>
+      </div>
+
+      <p class="small">
+        Теги отображаются в редакторе и фильтрах,
+        но не на самих карточках.
+      </p>
+
+      <div class="dialog-actions">
+        <button id="cancel" class="btn" type="button">
+          Отмена
+        </button>
+
+        <button id="saveCard" class="btn primary" type="submit">
+          Сохранить в GitHub
+        </button>
+      </div>
+
+    </form>
+
+  </div>
 </div>
 
 <script>
-(()=>{
-'use strict';
+(() => {
+  "use strict";
 
-const KEY='english-cards-local-v1';
-const defaults=[
-{id:'1',q:'Как работает функционал?',a:'Здесь находится ответ на первый вопрос.\nМожно использовать несколько предложений\nи подробно описать нужный процесс.',tags:[]},
-{id:'2',q:'Где найти нужную информацию?',a:'Здесь можно разместить инструкцию,\nссылку или другую полезную информацию.',tags:[]},
-{id:'3',q:'Что делать при возникновении ошибки?',a:'Здесь находится описание необходимых действий\nпри возникновении ошибки.',tags:[]}
-];
+  const API =
+    "https://english-cards-auth.kavayna11.workers.dev";
 
-let cards;
-try{
-const saved=JSON.parse(localStorage.getItem(KEY));
-cards=Array.isArray(saved)?saved:defaults;
-}catch{
-cards=defaults;
-}
+  const $ = id => document.getElementById(id);
 
-let selected=new Set();
-let editing=null;
-let draftTags=new Set();
-let knownTags=new Set(cards.flatMap(c=>c.tags||[]));
+  let cards = [];
+  let fileSha = null;
+  let isOwner = false;
+  let isSaving = false;
 
-const $=id=>document.getElementById(id);
-const save=()=>localStorage.setItem(KEY,JSON.stringify(cards));
+  let selectedTags = new Set();
+  let knownTags = new Set();
+  let draftTags = new Set();
+  let editingId = null;
 
-function make(tag,cls,text){
-const e=document.createElement(tag);
-if(cls)e.className=cls;
-if(text!==undefined)e.textContent=text;
-return e;
-}
+  function element(tag, className = "", text) {
+    const node = document.createElement(tag);
 
-function render(){
-const term=$('search').value.toLocaleLowerCase().trim();
-const mode=document.querySelector('input[name="mode"]:checked').value;
-const tags=$('filterTags');
-tags.replaceChildren();
+    if (className) {
+      node.className = className;
+    }
 
-const existing=[...new Set(cards.flatMap(c=>c.tags||[]))]
-.sort((a,b)=>a.localeCompare(b,'ru'));
+    if (text !== undefined) {
+      node.textContent = text;
+    }
 
-for(const t of [...selected]){
-if(!existing.includes(t))selected.delete(t);
-}
+    return node;
+  }
 
-existing.forEach(t=>{
-const b=make('button','tag'+(selected.has(t)?' active':''),t);
-b.type='button';
-b.setAttribute('aria-pressed',String(selected.has(t)));
-b.onclick=()=>{
-selected.has(t)?selected.delete(t):selected.add(t);
-render();
-};
-tags.append(b);
-});
+  function message(text, type = "") {
+    const box = $("message");
 
-if(!existing.length){
-tags.append(make('span','small','Пока нет тегов — добавь их в редакторе карточки.'));
-}
+    box.textContent = text;
+    box.className = "message" + (
+      type ? " " + type : ""
+    );
 
-const shown=cards.filter(c=>{
-const match=(!term||`${c.q} ${c.a}`.toLocaleLowerCase().includes(term));
-const tagMatch=!selected.size||(
-mode==='all'
-?[...selected].every(t=>(c.tags||[]).includes(t))
-:[...selected].some(t=>(c.tags||[]).includes(t))
-);
-return match&&tagMatch;
-});
+    box.classList.toggle("hidden", !text);
+  }
 
-$('count').textContent=`Показано ${shown.length} из ${cards.length}`;
-const grid=$('grid');
-grid.replaceChildren();
-$('empty').classList.toggle('hidden',shown.length>0);
+  async function api(path, options = {}) {
+    const response = await fetch(API + path, {
+      ...options,
+      credentials: "include",
+      cache: "no-store",
+      headers: {
+        "Accept": "application/json",
+        ...(options.body
+          ? { "Content-Type": "application/json" }
+          : {}),
+        ...(options.headers || {})
+      }
+    });
 
-shown.forEach(c=>{
-const card=make('article','qa-card');
-const inner=make('div','qa-inner');
-inner.tabIndex=0;
-inner.setAttribute('role','button');
-inner.setAttribute('aria-label','Перевернуть карточку: '+c.q);
+    let data;
 
-const front=make('div','qa-front');
-const back=make('div','qa-back');
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error(
+        "Сервер вернул неожиданный ответ."
+      );
+    }
 
-front.append(
-make('div','qa-icon','?'),
-make('div','qa-title',c.q),
-make('div','qa-hint','Нажмите, чтобы узнать ответ')
-);
+    if (!response.ok) {
+      const error = new Error(
+        data.error || "Ошибка сервера"
+      );
 
-back.append(
-make('div','qa-title','Ответ'),
-make('div','qa-answer',c.a),
-make('div','qa-hint','Нажмите, чтобы вернуться')
-);
+      error.status = response.status;
+      error.conflict = data.conflict;
 
-inner.append(front,back);
-inner.onclick=()=>card.classList.toggle('flipped');
-inner.onkeydown=e=>{
-if(e.key==='Enter'||e.key===' '){
-e.preventDefault();
-inner.click();
-}
-};
+      throw error;
+    }
 
-const actions=make('div','card-actions');
-const edit=make('button','btn','Изменить');
-const del=make('button','btn danger','Удалить');
+    return data;
+  }
 
-edit.onclick=()=>openEditor(c.id);
-del.onclick=()=>{
-if(confirm('Удалить эту карточку?')){
-cards=cards.filter(x=>x.id!==c.id);
-save();
-render();
-}
-};
+  function setOwner(value) {
+    isOwner = Boolean(value);
 
-actions.append(edit,del);
-card.append(inner,actions);
-grid.append(card);
-});
-}
+    $("login").classList.toggle(
+      "hidden",
+      isOwner
+    );
 
-function renderEditTags(){
-const area=$('editTags');
-area.replaceChildren();
+    $("create").classList.toggle(
+      "hidden",
+      !isOwner
+    );
 
-const available=[...new Set([...knownTags,...draftTags])]
-.sort((a,b)=>a.localeCompare(b,'ru'));
+    $("logout").classList.toggle(
+      "hidden",
+      !isOwner
+    );
 
-available.forEach(t=>{
-const b=make('button','tag-choice'+(draftTags.has(t)?' active':''),t);
-b.type='button';
-b.setAttribute('aria-pressed',String(draftTags.has(t)));
-b.onclick=()=>{
-draftTags.has(t)?draftTags.delete(t):draftTags.add(t);
-renderEditTags();
-};
-area.append(b);
-});
+    $("authStatus").textContent = isOwner
+      ? "Режим владельца: редактирование разрешено."
+      : "Режим просмотра: карточки доступны всем.";
 
-if(!available.length){
-area.append(make('span','small','Тегов ещё нет. Создай первый ниже.'));
-}
-}
+    render();
+  }
 
-function openEditor(id=null){
-editing=id;
-const c=cards.find(x=>x.id===id);
-$('dialogTitle').textContent=c?'Редактировать карточку':'Создать карточку';
-$('question').value=c?.q||'';
-$('answer').value=c?.a||'';
-draftTags=new Set(c?.tags||[]);
-renderEditTags();
-$('newTag').value='';
-$('modal').classList.remove('hidden');
-$('question').focus();
-}
+  async function checkLogin() {
+    try {
+      const data = await api("/me");
 
-function closeEditor(){
-$('modal').classList.add('hidden');
-}
+      setOwner(
+        data.authenticated &&
+        data.login.toLowerCase() === "alen-555"
+      );
+    } catch (error) {
+      console.error(error);
+      setOwner(false);
+    }
+  }
 
-$('create').onclick=()=>openEditor();
-$('cancel').onclick=closeEditor;
-$('clear').onclick=()=>{
-selected.clear();
-$('search').value='';
-render();
-};
-$('search').oninput=render;
+  async function loadCards() {
+    const data = await api("/cards");
 
-document.querySelectorAll('input[name="mode"]').forEach(x=>x.onchange=render);
+    if (!Array.isArray(data.cards)) {
+      throw new Error(
+        "Неверный формат файла карточек."
+      );
+    }
 
-$('addTag').onclick=()=>{
-const t=$('newTag').value.trim();
-if(!t)return;
-const canonical=[...knownTags].find(
-x=>x.toLocaleLowerCase()===t.toLocaleLowerCase()
-)||t;
-knownTags.add(canonical);
-draftTags.add(canonical);
-$('newTag').value='';
-renderEditTags();
-};
+    cards = data.cards;
+    fileSha = data.sha || null;
 
-$('newTag').onkeydown=e=>{
-if(e.key==='Enter'){
-e.preventDefault();
-$('addTag').click();
-}
-};
+    knownTags = new Set(
+      cards.flatMap(card => card.tags || [])
+    );
 
-$('form').onsubmit=e=>{
-e.preventDefault();
-const q=$('question').value.trim();
-const a=$('answer').value.trim();
-if(!q||!a)return;
+    render();
+  }
 
-const entry={
-id:editing||(
-(globalThis.crypto&&crypto.randomUUID)
-?crypto.randomUUID()
-:String(Date.now())+'-'+Math.random()
-),
-q,
-a,
-tags:[...draftTags]
-};
+  function render() {
+    const term = $("search").value
+      .toLocaleLowerCase()
+      .trim();
 
-if(editing){
-const i=cards.findIndex(c=>c.id===editing);
-if(i!==-1)cards[i]=entry;
-}else{
-cards.push(entry);
-}
+    const mode = document.querySelector(
+      'input[name="mode"]:checked'
+    ).value;
 
-save();
-closeEditor();
-render();
-};
+    const filterBox = $("filterTags");
+    filterBox.replaceChildren();
 
-$('modal').onclick=e=>{
-if(e.target===$('modal'))closeEditor();
-};
+    const availableTags = [
+      ...new Set(
+        cards.flatMap(card => card.tags || [])
+      )
+    ].sort((a, b) => a.localeCompare(b, "ru"));
 
-document.addEventListener('keydown',e=>{
-if(e.key==='Escape'&&!$('modal').classList.contains('hidden')){
-closeEditor();
-}
-});
+    for (const tag of selectedTags) {
+      if (!availableTags.includes(tag)) {
+        selectedTags.delete(tag);
+      }
+    }
 
-render();
+    for (const tag of availableTags) {
+      const button = element(
+        "button",
+        "tag" + (
+          selectedTags.has(tag) ? " active" : ""
+        ),
+        tag
+      );
+
+      button.type = "button";
+
+      button.setAttribute(
+        "aria-pressed",
+        String(selectedTags.has(tag))
+      );
+
+      button.onclick = () => {
+        if (selectedTags.has(tag)) {
+          selectedTags.delete(tag);
+        } else {
+          selectedTags.add(tag);
+        }
+
+        render();
+      };
+
+      filterBox.append(button);
+    }
+
+    if (!availableTags.length) {
+      filterBox.append(
+        element(
+          "span",
+          "small",
+          "Тегов пока нет."
+        )
+      );
+    }
+
+    const shown = cards.filter(card => {
+      const searchable = (
+        card.q + " " + card.a
+      ).toLocaleLowerCase();
+
+      const matchesText =
+        !term || searchable.includes(term);
+
+      const cardTags = card.tags || [];
+
+      const matchesTags =
+        selectedTags.size === 0 ||
+        (
+          mode === "all"
+            ? [...selectedTags].every(
+                tag => cardTags.includes(tag)
+              )
+            : [...selectedTags].some(
+                tag => cardTags.includes(tag)
+              )
+        );
+
+      return matchesText && matchesTags;
+    });
+
+    $("count").textContent =
+      "Показано " + shown.length +
+      " из " + cards.length;
+
+    const grid = $("grid");
+    grid.replaceChildren();
+
+    $("empty").classList.toggle(
+      "hidden",
+      shown.length > 0
+    );
+
+    $("empty").textContent = cards.length
+      ? "По выбранным условиям карточек нет."
+      : "Пока нет карточек.";
+
+    for (const cardData of shown) {
+      const card = element(
+        "article",
+        "qa-card"
+      );
+
+      const inner = element(
+        "div",
+        "qa-inner"
+      );
+
+      inner.tabIndex = 0;
+      inner.setAttribute("role", "button");
+      inner.setAttribute(
+        "aria-label",
+        "Перевернуть карточку: " + cardData.q
+      );
+
+      const front = element(
+        "div",
+        "qa-front"
+      );
+
+      front.append(
+        element("div", "qa-icon", "?"),
+        element("div", "qa-title", cardData.q),
+        element(
+          "div",
+          "qa-hint",
+          "Нажмите, чтобы узнать ответ"
+        )
+      );
+
+      const back = element(
+        "div",
+        "qa-back"
+      );
+
+      back.append(
+        element("div", "qa-title", "Ответ"),
+        element(
+          "div",
+          "qa-answer",
+          cardData.a
+        ),
+        element(
+          "div",
+          "qa-hint",
+          "Нажмите, чтобы вернуться"
+        )
+      );
+
+      inner.append(front, back);
+
+      inner.onclick = () => {
+        card.classList.toggle("flipped");
+      };
+
+      inner.onkeydown = event => {
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+          event.preventDefault();
+          inner.click();
+        }
+      };
+
+      card.append(inner);
+
+      if (isOwner) {
+        const actions = element(
+          "div",
+          "card-actions"
+        );
+
+        const edit = element(
+          "button",
+          "btn",
+          "Изменить"
+        );
+
+        const remove = element(
+          "button",
+          "btn danger",
+          "Удалить"
+        );
+
+        edit.type = "button";
+        remove.type = "button";
+
+        edit.onclick = () => {
+          openEditor(cardData.id);
+        };
+
+        remove.onclick = () => {
+          deleteCard(cardData.id);
+        };
+
+        actions.append(edit, remove);
+        card.append(actions);
+      }
+
+      grid.append(card);
+    }
+  }
+
+  function renderEditorTags() {
+    const box = $("editTags");
+    box.replaceChildren();
+
+    const tags = [
+      ...new Set([
+        ...knownTags,
+        ...draftTags
+      ])
+    ].sort((a, b) => a.localeCompare(b, "ru"));
+
+    for (const tag of tags) {
+      const button = element(
+        "button",
+        "tag-choice" + (
+          draftTags.has(tag) ? " active" : ""
+        ),
+        tag
+      );
+
+      button.type = "button";
+
+      button.setAttribute(
+        "aria-pressed",
+        String(draftTags.has(tag))
+      );
+
+      button.onclick = () => {
+        if (draftTags.has(tag)) {
+          draftTags.delete(tag);
+        } else {
+          draftTags.add(tag);
+        }
+
+        renderEditorTags();
+      };
+
+      box.append(button);
+    }
+
+    if (!tags.length) {
+      box.append(
+        element(
+          "span",
+          "small",
+          "Тегов ещё нет. Создай первый ниже."
+        )
+      );
+    }
+  }
+
+  function openEditor(id = null) {
+    if (!isOwner || isSaving) {
+      return;
+    }
+
+    editingId = id;
+
+    const card = cards.find(
+      item => item.id === id
+    );
+
+    $("dialogTitle").textContent = card
+      ? "Редактировать карточку"
+      : "Создать карточку";
+
+    $("question").value = card?.q || "";
+    $("answer").value = card?.a || "";
+    $("newTag").value = "";
+
+    draftTags = new Set(card?.tags || []);
+
+    renderEditorTags();
+
+    $("modal").classList.remove("hidden");
+    $("question").focus();
+  }
+
+  function closeEditor() {
+    if (isSaving) {
+      return;
+    }
+
+    $("modal").classList.add("hidden");
+  }
+
+  async function saveToGitHub(nextCards) {
+    if (!isOwner || isSaving) {
+      return false;
+    }
+
+    isSaving = true;
+
+    $("saveCard").disabled = true;
+    $("create").disabled = true;
+
+    message("Сохраняем изменения в GitHub...");
+
+    try {
+      const result = await api("/cards", {
+        method: "POST",
+        body: JSON.stringify({
+          cards: nextCards,
+          sha: fileSha
+        })
+      });
+
+      cards = nextCards;
+      fileSha = result.sha;
+
+      knownTags = new Set([
+        ...knownTags,
+        ...cards.flatMap(card => card.tags || [])
+      ]);
+
+      message(
+        "Изменения сохранены в GitHub!",
+        "success"
+      );
+
+      return true;
+    } catch (error) {
+      console.error(error);
+
+      if (error.conflict || error.status === 409) {
+        message(
+          "Карточки изменились на другом устройстве. " +
+          "Скопируй несохранённый текст и обнови страницу, " +
+          "прежде чем повторять сохранение.",
+          "error"
+        );
+      } else if (error.status === 401) {
+        message(
+          "Сессия входа не найдена. " +
+          "Попробуй снова войти через GitHub.",
+          "error"
+        );
+      } else {
+        message(
+          "Не удалось сохранить карточку: " +
+          error.message,
+          "error"
+        );
+      }
+
+      return false;
+    } finally {
+      isSaving = false;
+
+      $("saveCard").disabled = false;
+      $("create").disabled = false;
+    }
+  }
+
+  async function deleteCard(id) {
+    if (!isOwner || isSaving) {
+      return;
+    }
+
+    if (!confirm("Удалить эту карточку?")) {
+      return;
+    }
+
+    const nextCards = cards.filter(
+      card => card.id !== id
+    );
+
+    const success = await saveToGitHub(
+      nextCards
+    );
+
+    if (success) {
+      render();
+    }
+  }
+
+  $("form").onsubmit = async event => {
+    event.preventDefault();
+
+    if (!isOwner || isSaving) {
+      return;
+    }
+
+    const q = $("question").value.trim();
+    const a = $("answer").value.trim();
+
+    if (!q || !a) {
+      return;
+    }
+
+    const id = editingId ||
+      crypto.randomUUID();
+
+    const entry = {
+      id,
+      q,
+      a,
+      tags: [...draftTags]
+    };
+
+    const nextCards = cards.map(
+      card => ({ ...card })
+    );
+
+    if (editingId) {
+      const index = nextCards.findIndex(
+        card => card.id === editingId
+      );
+
+      if (index < 0) {
+        message(
+          "Не удалось найти карточку.",
+          "error"
+        );
+        return;
+      }
+
+      nextCards[index] = entry;
+    } else {
+      nextCards.push(entry);
+    }
+
+    const success = await saveToGitHub(
+      nextCards
+    );
+
+    if (success) {
+      closeEditor();
+      render();
+    }
+  };
+
+  $("addTag").onclick = () => {
+    const value = $("newTag").value.trim();
+
+    if (!value) {
+      return;
+    }
+
+    const existing = [...knownTags].find(
+      tag =>
+        tag.toLocaleLowerCase() ===
+        value.toLocaleLowerCase()
+    );
+
+    const tag = existing || value;
+
+    knownTags.add(tag);
+    draftTags.add(tag);
+
+    $("newTag").value = "";
+
+    renderEditorTags();
+  };
+
+  $("newTag").onkeydown = event => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      $("addTag").click();
+    }
+  };
+
+  $("login").onclick = () => {
+    window.location.href = API + "/login";
+  };
+
+  $("logout").onclick = async () => {
+    try {
+      await api("/logout", {
+        method: "POST"
+      });
+
+      setOwner(false);
+      message("Ты вышла из редактора.");
+    } catch (error) {
+      message(
+        "Не удалось выйти: " + error.message,
+        "error"
+      );
+    }
+  };
+
+  $("create").onclick = () => {
+    openEditor();
+  };
+
+  $("cancel").onclick = closeEditor;
+
+  $("clear").onclick = () => {
+    selectedTags.clear();
+    $("search").value = "";
+    render();
+  };
+
+  $("search").oninput = render;
+
+  document.querySelectorAll(
+    'input[name="mode"]'
+  ).forEach(input => {
+    input.onchange = render;
+  });
+
+  $("modal").onclick = event => {
+    if (event.target === $("modal")) {
+      closeEditor();
+    }
+  };
+
+  document.addEventListener(
+    "keydown",
+    event => {
+      if (
+        event.key === "Escape" &&
+        !$("modal").classList.contains("hidden")
+      ) {
+        closeEditor();
+      }
+    }
+  );
+
+  async function initialize() {
+    setOwner(false);
+
+    try {
+      await loadCards();
+    } catch (error) {
+      console.error(error);
+
+      $("count").textContent =
+        "Не удалось загрузить карточки.";
+
+      message(
+        "Ошибка загрузки: " + error.message,
+        "error"
+      );
+    }
+
+    await checkLogin();
+  }
+
+  initialize();
 })();
 </script>
+
 </body>
 </html>
