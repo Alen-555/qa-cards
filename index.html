@@ -3,245 +3,343 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Вопросы и ответы</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>English Cards</title>
 <style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 40px 24px;
-    background: #F5F8FA;
-    font-family: Arial, sans-serif;
-    color: #315D78;
-}
-
-.qa-panel {
-    width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.qa-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
-    align-items: stretch;
-}
-
-.qa-card {
-    position: relative;
-    min-width: 0;
-    perspective: 1000px;
-    display: grid;
-}
-
-.qa-card input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.qa-inner {
-    display: grid;
-    width: 100%;
-    min-width: 0;
-    cursor: pointer;
-    transform-style: preserve-3d;
-    transition: transform 0.65s ease;
-}
-
-.qa-card input:checked + .qa-inner {
-    transform: rotateY(180deg);
-}
-
-.qa-front,
-.qa-back {
-    grid-area: 1 / 1;
-    min-width: 0;
-    min-height: 230px;
-    border-radius: 12px;
-    padding: 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    border: 1px solid #D5E4E9;
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
-    overflow-wrap: anywhere;
-}
-
-.qa-front {
-    background: #EAF3F8;
-    color: #315D78;
-}
-
-.qa-back {
-    background: #E8F4ED;
-    color: #306B4B;
-    transform: rotateY(180deg);
-}
-
-.qa-icon {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    border-radius: 50%;
-    background: #D2E6F1;
-    color: #3476A5;
-    font-size: 23px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-}
-
-.qa-title {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.4;
-}
-
-.qa-answer {
-    font-size: 15px;
-    line-height: 1.6;
-    margin-top: 12px;
-    white-space: pre-line;
-}
-
-.qa-hint {
-    font-size: 11px;
-    opacity: 0.65;
-    margin-top: 14px;
-}
-
-.qa-inner:hover .qa-front {
-    border-color: #83B6D0;
-}
-
-.qa-inner:hover .qa-back {
-    border-color: #83B99A;
-}
-
-@media (max-width: 800px) {
-    .qa-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 600px) {
-    body {
-        padding: 20px 12px;
-    }
-
-    .qa-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .qa-inner {
-        transition: none;
-    }
-}
+*{box-sizing:border-box}
+body{margin:0;padding:32px 20px;background:#f5f8fa;font:15px/1.5 Arial,sans-serif;color:#315d78}
+.app{max-width:1100px;margin:auto}
+.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+h1{font-size:23px;margin:0}
+.btn{border:1px solid #a6c6d6;border-radius:9px;background:white;color:#315d78;padding:9px 13px;font:inherit;cursor:pointer}
+.btn.primary{background:#315d78;color:white}
+.btn.danger{color:#a33;border-color:#e6b8b8}
+.controls{background:white;border:1px solid #d5e4e9;border-radius:12px;padding:16px;margin-bottom:20px}
+.search{width:100%;padding:11px;border:1px solid #b9ced9;border-radius:9px;font:inherit;margin-bottom:12px}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.tag{padding:6px 10px;border:1px solid #b8d0dd;border-radius:20px;background:#f3f9fc;cursor:pointer;color:#315d78}
+.tag.active{background:#315d78;color:white}
+.filter-row{display:flex;gap:15px;flex-wrap:wrap;align-items:center}
+.status{font-size:12px;color:#6a8190;margin-top:10px}
+.qa-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:stretch}
+.qa-card{min-width:0;perspective:1000px;display:flex;flex-direction:column}
+.qa-inner{position:relative;display:grid;flex:1;min-width:0;cursor:pointer;transform-style:preserve-3d;transition:transform .65s ease}
+.qa-card.flipped .qa-inner{transform:rotateY(180deg)}
+.qa-front,.qa-back{grid-area:1/1;min-width:0;min-height:230px;border-radius:12px;padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #d5e4e9;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow-wrap:anywhere}
+.qa-front{background:#eaf3f8;color:#315d78}
+.qa-back{background:#e8f4ed;color:#306b4b;transform:rotateY(180deg)}
+.qa-icon{width:36px;height:36px;border-radius:50%;background:#d2e6f1;color:#3476a5;font-size:23px;font-weight:600;display:grid;place-items:center;margin-bottom:12px}
+.qa-title{font-size:15px;font-weight:600;line-height:1.4;white-space:pre-wrap}
+.qa-answer{font-size:15px;line-height:1.6;margin-top:12px;white-space:pre-wrap}
+.qa-hint{font-size:11px;opacity:.65;margin-top:14px}
+.card-actions{display:flex;gap:8px;justify-content:center;padding-top:9px}
+.card-actions .btn{padding:5px 10px;font-size:12px}
+.hidden{display:none!important}
+.empty{text-align:center;padding:35px;color:#647f8d}
+.modal{position:fixed;inset:0;background:#172d3a99;display:flex;align-items:center;justify-content:center;padding:16px;z-index:10}
+.dialog{background:white;border-radius:14px;padding:22px;width:min(100%,530px);max-height:90vh;overflow:auto;box-shadow:0 12px 40px #152b3b33}
+.dialog h2{margin:0 0 15px;font-size:19px}
+.field{display:block;margin:12px 0 5px;font-weight:600}
+.dialog input,.dialog textarea{width:100%;border:1px solid #b9ced9;border-radius:8px;padding:10px;font:inherit}
+.dialog textarea{min-height:120px;resize:vertical}
+.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.small{font-size:12px;color:#647f8d}
+.tag-editor{display:flex;flex-wrap:wrap;gap:7px;margin:9px 0}
+.tag-choice{border:1px solid #bdd5df;border-radius:20px;padding:5px 9px;background:#f4f9fb;cursor:pointer}
+.tag-choice.active{background:#d8eaf4;border-color:#3476a5}
+.add-tag{display:flex;gap:8px}
+.add-tag input{min-width:0}
+.notice{background:#fff9e9;border:1px solid #e8d9a9;border-radius:9px;padding:10px 12px;font-size:12px;margin-bottom:15px;color:#66552c}
+@media(max-width:800px){.qa-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){body{padding:18px 12px}.qa-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.qa-inner{transition:none}}
 </style>
 </head>
-
 <body>
+<main class="app">
+<div class="toolbar">
+<h1>English Cards</h1>
+<button class="btn primary" id="create">+ Создать карточку</button>
+</div>
+<div class="notice">Пробная версия: изменения сохраняются только в этом браузере. Публичный репозиторий пока не обновляется.</div>
+<section class="controls">
+<input id="search" class="search" placeholder="Поиск по вопросам и ответам..." aria-label="Поиск">
+<div>
+<strong>Фильтры по тегам</strong>
+<button class="btn" id="clear" style="padding:4px 9px;margin-left:8px">Сбросить</button>
+</div>
+<div class="tags" id="filterTags"></div>
+<div class="filter-row">
+<label><input type="radio" name="mode" value="any" checked> Любой тег (ИЛИ)</label>
+<label><input type="radio" name="mode" value="all"> Все теги (И)</label>
+</div>
+<div class="status" id="count"></div>
+</section>
+<div class="qa-grid" id="grid"></div>
+<p id="empty" class="empty hidden">По выбранным условиям карточек нет.</p>
+</main>
 
-<div class="qa-panel">
-    <div class="qa-grid">
-
-        <!-- Карточка 1 -->
-        <div class="qa-card">
-            <input type="checkbox" id="qa-card-1">
-            <label for="qa-card-1" class="qa-inner">
-
-                <div class="qa-front">
-                    <div class="qa-icon">?</div>
-                    <div class="qa-title">
-                        Как работает функционал?
-                    </div>
-                    <div class="qa-hint">
-                        Нажмите, чтобы узнать ответ
-                    </div>
-                </div>
-
-                <div class="qa-back">
-                    <div class="qa-title">Ответ</div>
-                    <div class="qa-answer">Здесь находится ответ на первый вопрос.
-Можно использовать несколько предложений
-и подробно описать нужный процесс.</div>
-                    <div class="qa-hint">
-                        Нажмите, чтобы вернуться
-                    </div>
-                </div>
-
-            </label>
-        </div>
-
-        <!-- Карточка 2 -->
-        <div class="qa-card">
-            <input type="checkbox" id="qa-card-2">
-            <label for="qa-card-2" class="qa-inner">
-
-                <div class="qa-front">
-                    <div class="qa-icon">?</div>
-                    <div class="qa-title">
-                        Где найти нужную информацию?
-                    </div>
-                    <div class="qa-hint">
-                        Нажмите, чтобы узнать ответ
-                    </div>
-                </div>
-
-                <div class="qa-back">
-                    <div class="qa-title">Ответ</div>
-                    <div class="qa-answer">Здесь можно разместить инструкцию,
-ссылку или другую полезную информацию.</div>
-                    <div class="qa-hint">
-                        Нажмите, чтобы вернуться
-                    </div>
-                </div>
-
-            </label>
-        </div>
-
-        <!-- Карточка 3 -->
-        <div class="qa-card">
-            <input type="checkbox" id="qa-card-3">
-            <label for="qa-card-3" class="qa-inner">
-
-                <div class="qa-front">
-                    <div class="qa-icon">?</div>
-                    <div class="qa-title">
-                        Что делать при возникновении ошибки?
-                    </div>
-                    <div class="qa-hint">
-                        Нажмите, чтобы узнать ответ
-                    </div>
-                </div>
-
-                <div class="qa-back">
-                    <div class="qa-title">Ответ</div>
-                    <div class="qa-answer">Здесь находится описание необходимых действий
-при возникновении ошибки.</div>
-                    <div class="qa-hint">
-                        Нажмите, чтобы вернуться
-                    </div>
-                </div>
-
-            </label>
-        </div>
-
-    </div>
+<div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+<div class="dialog">
+<h2 id="dialogTitle">Карточка</h2>
+<form id="form">
+<label class="field" for="question">Вопрос / слово / фраза</label>
+<textarea id="question" required></textarea>
+<label class="field" for="answer">Ответ / перевод / пояснение</label>
+<textarea id="answer" required></textarea>
+<label class="field">Теги (можно выбрать несколько)</label>
+<div id="editTags" class="tag-editor"></div>
+<div class="add-tag">
+<input id="newTag" placeholder="Название нового тега">
+<button class="btn" id="addTag" type="button">Добавить тег</button>
+</div>
+<p class="small">Теги видны только в редакторе и фильтрах, но не на карточках.</p>
+<div class="dialog-actions">
+<button class="btn" id="cancel" type="button">Отмена</button>
+<button class="btn primary" type="submit">Сохранить</button>
+</div>
+</form>
+</div>
 </div>
 
+<script>
+(()=>{
+'use strict';
+
+const KEY='english-cards-local-v1';
+const defaults=[
+{id:'1',q:'Как работает функционал?',a:'Здесь находится ответ на первый вопрос.\nМожно использовать несколько предложений\nи подробно описать нужный процесс.',tags:[]},
+{id:'2',q:'Где найти нужную информацию?',a:'Здесь можно разместить инструкцию,\nссылку или другую полезную информацию.',tags:[]},
+{id:'3',q:'Что делать при возникновении ошибки?',a:'Здесь находится описание необходимых действий\nпри возникновении ошибки.',tags:[]}
+];
+
+let cards;
+try{
+const saved=JSON.parse(localStorage.getItem(KEY));
+cards=Array.isArray(saved)?saved:defaults;
+}catch{
+cards=defaults;
+}
+
+let selected=new Set();
+let editing=null;
+let draftTags=new Set();
+let knownTags=new Set(cards.flatMap(c=>c.tags||[]));
+
+const $=id=>document.getElementById(id);
+const save=()=>localStorage.setItem(KEY,JSON.stringify(cards));
+
+function make(tag,cls,text){
+const e=document.createElement(tag);
+if(cls)e.className=cls;
+if(text!==undefined)e.textContent=text;
+return e;
+}
+
+function render(){
+const term=$('search').value.toLocaleLowerCase().trim();
+const mode=document.querySelector('input[name="mode"]:checked').value;
+const tags=$('filterTags');
+tags.replaceChildren();
+
+const existing=[...new Set(cards.flatMap(c=>c.tags||[]))]
+.sort((a,b)=>a.localeCompare(b,'ru'));
+
+for(const t of [...selected]){
+if(!existing.includes(t))selected.delete(t);
+}
+
+existing.forEach(t=>{
+const b=make('button','tag'+(selected.has(t)?' active':''),t);
+b.type='button';
+b.setAttribute('aria-pressed',String(selected.has(t)));
+b.onclick=()=>{
+selected.has(t)?selected.delete(t):selected.add(t);
+render();
+};
+tags.append(b);
+});
+
+if(!existing.length){
+tags.append(make('span','small','Пока нет тегов — добавь их в редакторе карточки.'));
+}
+
+const shown=cards.filter(c=>{
+const match=(!term||`${c.q} ${c.a}`.toLocaleLowerCase().includes(term));
+const tagMatch=!selected.size||(
+mode==='all'
+?[...selected].every(t=>(c.tags||[]).includes(t))
+:[...selected].some(t=>(c.tags||[]).includes(t))
+);
+return match&&tagMatch;
+});
+
+$('count').textContent=`Показано ${shown.length} из ${cards.length}`;
+const grid=$('grid');
+grid.replaceChildren();
+$('empty').classList.toggle('hidden',shown.length>0);
+
+shown.forEach(c=>{
+const card=make('article','qa-card');
+const inner=make('div','qa-inner');
+inner.tabIndex=0;
+inner.setAttribute('role','button');
+inner.setAttribute('aria-label','Перевернуть карточку: '+c.q);
+
+const front=make('div','qa-front');
+const back=make('div','qa-back');
+
+front.append(
+make('div','qa-icon','?'),
+make('div','qa-title',c.q),
+make('div','qa-hint','Нажмите, чтобы узнать ответ')
+);
+
+back.append(
+make('div','qa-title','Ответ'),
+make('div','qa-answer',c.a),
+make('div','qa-hint','Нажмите, чтобы вернуться')
+);
+
+inner.append(front,back);
+inner.onclick=()=>card.classList.toggle('flipped');
+inner.onkeydown=e=>{
+if(e.key==='Enter'||e.key===' '){
+e.preventDefault();
+inner.click();
+}
+};
+
+const actions=make('div','card-actions');
+const edit=make('button','btn','Изменить');
+const del=make('button','btn danger','Удалить');
+
+edit.onclick=()=>openEditor(c.id);
+del.onclick=()=>{
+if(confirm('Удалить эту карточку?')){
+cards=cards.filter(x=>x.id!==c.id);
+save();
+render();
+}
+};
+
+actions.append(edit,del);
+card.append(inner,actions);
+grid.append(card);
+});
+}
+
+function renderEditTags(){
+const area=$('editTags');
+area.replaceChildren();
+
+const available=[...new Set([...knownTags,...draftTags])]
+.sort((a,b)=>a.localeCompare(b,'ru'));
+
+available.forEach(t=>{
+const b=make('button','tag-choice'+(draftTags.has(t)?' active':''),t);
+b.type='button';
+b.setAttribute('aria-pressed',String(draftTags.has(t)));
+b.onclick=()=>{
+draftTags.has(t)?draftTags.delete(t):draftTags.add(t);
+renderEditTags();
+};
+area.append(b);
+});
+
+if(!available.length){
+area.append(make('span','small','Тегов ещё нет. Создай первый ниже.'));
+}
+}
+
+function openEditor(id=null){
+editing=id;
+const c=cards.find(x=>x.id===id);
+$('dialogTitle').textContent=c?'Редактировать карточку':'Создать карточку';
+$('question').value=c?.q||'';
+$('answer').value=c?.a||'';
+draftTags=new Set(c?.tags||[]);
+renderEditTags();
+$('newTag').value='';
+$('modal').classList.remove('hidden');
+$('question').focus();
+}
+
+function closeEditor(){
+$('modal').classList.add('hidden');
+}
+
+$('create').onclick=()=>openEditor();
+$('cancel').onclick=closeEditor;
+$('clear').onclick=()=>{
+selected.clear();
+$('search').value='';
+render();
+};
+$('search').oninput=render;
+
+document.querySelectorAll('input[name="mode"]').forEach(x=>x.onchange=render);
+
+$('addTag').onclick=()=>{
+const t=$('newTag').value.trim();
+if(!t)return;
+const canonical=[...knownTags].find(
+x=>x.toLocaleLowerCase()===t.toLocaleLowerCase()
+)||t;
+knownTags.add(canonical);
+draftTags.add(canonical);
+$('newTag').value='';
+renderEditTags();
+};
+
+$('newTag').onkeydown=e=>{
+if(e.key==='Enter'){
+e.preventDefault();
+$('addTag').click();
+}
+};
+
+$('form').onsubmit=e=>{
+e.preventDefault();
+const q=$('question').value.trim();
+const a=$('answer').value.trim();
+if(!q||!a)return;
+
+const entry={
+id:editing||(
+(globalThis.crypto&&crypto.randomUUID)
+?crypto.randomUUID()
+:String(Date.now())+'-'+Math.random()
+),
+q,
+a,
+tags:[...draftTags]
+};
+
+if(editing){
+const i=cards.findIndex(c=>c.id===editing);
+if(i!==-1)cards[i]=entry;
+}else{
+cards.push(entry);
+}
+
+save();
+closeEditor();
+render();
+};
+
+$('modal').onclick=e=>{
+if(e.target===$('modal'))closeEditor();
+};
+
+document.addEventListener('keydown',e=>{
+if(e.key==='Escape'&&!$('modal').classList.contains('hidden')){
+closeEditor();
+}
+});
+
+render();
+})();
+</script>
 </body>
 </html>
