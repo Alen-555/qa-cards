@@ -223,7 +223,6 @@ h1 {
 }
 
 .qa-answer {
-  margin-top: 12px;
   font-size: 15px;
   line-height: 1.6;
   white-space: pre-wrap;
@@ -764,14 +763,8 @@ h1 {
         "qa-front"
       );
 
-      front.append(
-        element("div", "qa-icon", "?"),
-        element("div", "qa-title", cardData.q),
-        element(
-          "div",
-          "qa-hint",
-          "Нажмите, чтобы узнать ответ"
-        )
+   front.append(
+        element("div", "qa-title", cardData.q)
       );
 
       const back = element(
@@ -779,18 +772,8 @@ h1 {
         "qa-back"
       );
 
-      back.append(
-        element("div", "qa-title", "Ответ"),
-        element(
-          "div",
-          "qa-answer",
-          cardData.a
-        ),
-        element(
-          "div",
-          "qa-hint",
-          "Нажмите, чтобы вернуться"
-        )
+    back.append(
+        element("div", "qa-answer", cardData.a)
       );
 
       inner.append(front, back);
